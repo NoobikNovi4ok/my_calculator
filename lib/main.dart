@@ -195,6 +195,7 @@ class _CalculatorHomePageState extends State<CalculatorHomePage> {
               ),
             ),
           ),
+          const SizedBox(height: 50),
           // Кнопка для открытия документации
           ElevatedButton(
             onPressed: () {
@@ -436,7 +437,7 @@ class _CalculatorHomePageState extends State<CalculatorHomePage> {
           backgroundColor: backgroundColor,
           foregroundColor: textColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10), // Уменьшенная степень округления
+            borderRadius: BorderRadius.circular(30), // Уменьшенная степень округления
             side: BorderSide(color: borderColor, width: 2),
           ),
         ),
