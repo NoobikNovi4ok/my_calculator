@@ -1,16 +1,16 @@
-# my_calculator
+# Документация для калькулятора
 
-A new Flutter project.
+## Основные функции
+- Выполняет базовые математические операции: сложение (`+`), вычитание (`-`), умножение (`*`), деление (`/`).
+- Поддерживает вычисление квадратного корня (`√`) и логарифма (`log`).
+- Возможность очистки поля ввода кнопкой `AC`.
 
-## Getting Started
+## Примеры использования
+- Введите число и нажмите оператор (например, `+`, `-`, `*`, `/`).
+- Для выполнения операции введите второе число и нажмите `=`.
+- Для вычисления квадратного корня введите число и нажмите `√`.
+- Для вычисления логарифма введите число, нажмите `log`, затем введите основание.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Примечания
+- При делении на ноль результат будет равен `0`.
+- Корень из отрицательного числа не определён.

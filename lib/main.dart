@@ -1,5 +1,8 @@
 import 'dart:math'; // Для использования математических функций
+import 'dart:convert'; // Для работы с JSON
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http; // Для HTTP-запросов
+import 'package:flutter_markdown/flutter_markdown.dart'; // Для отображения Markdown
 
 void main() {
   runApp(const MyApp());
@@ -31,6 +34,34 @@ class _CalculatorHomePageState extends State<CalculatorHomePage> {
   String _expression = ''; // Текущее выражение (например, "5 + 3")
   double _result = 0; // Результат вычислений
   String _operation = ''; // Текущая операция
+  String _markdownContent = 'Загрузка...'; // Содержимое Markdown
+
+  @override
+  void initState() {
+    super.initState();
+    _loadMarkdownFromCDN(); // Загружаем документацию при запуске
+  }
+
+  // Загрузка Markdown-файла с CDN
+  Future<void> _loadMarkdownFromCDN() async {
+    final url = Uri.parse('https://raw.githubusercontent.com/NoobikNovi4ok/my_calculator/refs/heads/main/README.md'); // Укажите вашу ссылку на CDN
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        setState(() {
+          _markdownContent = utf8.decode(response.bodyBytes); // Декодируем содержимое
+        });
+      } else {
+        setState(() {
+          _markdownContent = 'Ошибка загрузки документации.';
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _markdownContent = 'Ошибка подключения: $e';
+      });
+    }
+  }
 
   // Добавление символа в поле ввода
   void _addInput(String value) {
@@ -164,12 +195,37 @@ class _CalculatorHomePageState extends State<CalculatorHomePage> {
               ),
             ),
           ),
+          // Кнопка для открытия документации
+          ElevatedButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Документация'),
+                  content: SizedBox(
+                    width: double.maxFinite,
+                    height: 400,
+                    child: Markdown(
+                      data: _markdownContent, // Отображаем Markdown
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Закрыть'),
+                    ),
+                  ],
+                ),
+              );
+            },
+            child: const Text('Показать документацию'),
+          ),
           // Отступ между результатом и кнопками
-          const SizedBox(height: 100),
+          const SizedBox(height: 16),
           // Кнопки
           Expanded(
             child: Container(
-              color: Colors.grey[400], // Серый фон для области кнопок
+              color: Colors.grey[300], // Серый фон для области кнопок
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
@@ -326,7 +382,7 @@ class _CalculatorHomePageState extends State<CalculatorHomePage> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.grey[700],
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(10),
                               side: const BorderSide(color: Colors.orange, width: 2),
                             ),
                           ),
@@ -380,7 +436,7 @@ class _CalculatorHomePageState extends State<CalculatorHomePage> {
           backgroundColor: backgroundColor,
           foregroundColor: textColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20), // Уменьшенная степень округления
+            borderRadius: BorderRadius.circular(10), // Уменьшенная степень округления
             side: BorderSide(color: borderColor, width: 2),
           ),
         ),
